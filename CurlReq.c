@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<curl/curl.h>
 #include<jni.h>
-#include"Curl.h"
+#include"CurlReq.h"
 
 static size_t WriteCallback(void *ptr, size_t size, size_t nmemb, void *data)
 {
