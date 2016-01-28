@@ -33,9 +33,9 @@ import kafka.javaapi.message.ByteBufferMessageSet;
 import kafka.message.MessageAndOffset;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
-class Test {
+class Curl {
 
-    public native double[] sayHello(String url);
+    public native double[] getHttpRequest(String url);
 
     /*static {
         System.loadLibrary("clib");
@@ -140,21 +140,21 @@ class response implements Runnable{
         float dnsLookupTime=0,elapsedTime=0,ttfb=0;
         int responseSize=0;
 
-	String Host="";
-	try{
-		URL url=new URL(Url);
-		Host=url.getHost();	
-	}
-	catch(Exception e)
-	{
-		e.printStackTrace();
-	}
-	msg+=";"+Host;
+        String Host="";
+        try{
+            URL url=new URL(Url);
+            Host=url.getHost();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        msg+=";"+Host;
         System.loadLibrary("Test");
-        double[] results=new Test().sayHello(Url);
-	msg+=";"+Integer.toString((int)results[0]);
-	DecimalFormat f=new DecimalFormat("00.00");
-	
+        double[] results=new Curl().getHttpRequest(Url);
+        msg+=";"+Integer.toString((int)results[0]);
+        DecimalFormat f=new DecimalFormat("00.00");
+
         for(int i=1;i<results.length;i++)
         {
             String val=Double.toString(results[i]);

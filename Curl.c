@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<curl/curl.h>
 #include<jni.h>
-#include"Test.h"
+#include"Curl.h"
 
 static size_t WriteCallback(void *ptr, size_t size, size_t nmemb, void *data)
 {
@@ -13,7 +13,7 @@ static size_t WriteCallback(void *ptr, size_t size, size_t nmemb, void *data)
   return (size_t)(size * nmemb);
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_Test_sayHello(JNIEnv *env, jobject obj, jstring URL){
+JNIEXPORT jdoubleArray JNICALL Java_Test_getHttpRequest(JNIEnv *env, jobject obj, jstring URL){
 
     const char *url = (*env)->GetStringUTFChars(env, URL, NULL);
     printf("\t Hey Java!\n");
