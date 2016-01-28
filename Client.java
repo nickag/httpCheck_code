@@ -33,7 +33,7 @@ import kafka.javaapi.message.ByteBufferMessageSet;
 import kafka.message.MessageAndOffset;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
-class CurlReq {
+class Test {
 
     public native double[] getHttpRequest(String url);
 
@@ -151,7 +151,7 @@ class response implements Runnable{
 	}
 	msg+=";"+Host;
         System.loadLibrary("Test");
-        double[] results=new CurlReq().getHttpRequest(Url);
+        double[] results=new Test().getHttpRequest(Url);
 	msg+=";"+Integer.toString((int)results[0]);
 	DecimalFormat f=new DecimalFormat("00.00");
 
