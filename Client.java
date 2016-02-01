@@ -124,13 +124,15 @@ class CKafkaProducer {
 class response implements Runnable{
     static int i=0;
     String USER_AGENT;
-    String keyword,bu;
+    String keyword,bu,header;
     String Url="http://www.google.co.in";
     public response(String url)
     {
         String url_data[]=url.split(",");
         this.bu=url_data[1];
-        this.keyword="Host:"+url_data[2];
+        this.keyword=url_data[2];
+	this.header="Host:"+url_data[2];
+
 
         this.Url=url_data[0];
 
@@ -147,19 +149,20 @@ class response implements Runnable{
         int responseSize=0;
 
         String Host="";
-        try{
-            URL url=new URL(Url);
+        /*try{
+            //URL url=new URL(Url);
             //Host=url.getHost();
         }
         catch(Exception e)
         {
             e.printStackTrace();
-        }
+        }*/
+
         //msg+=";"+Host;
         msg+=";"+keyword+";"+bu;
 
         System.loadLibrary("Test");
-        double[] results=new Test().getHttpRequest(Url,keyword);
+        double[] results=new Test().getHttpRequest(Url,header);
         msg+=";"+Integer.toString((int)results[0]);
         DecimalFormat f=new DecimalFormat("00.00");
 

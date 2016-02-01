@@ -132,7 +132,7 @@ JNIEXPORT jdoubleArray JNICALL Java_Test_getHttpRequest(JNIEnv *env, jobject obj
     //printf("LibCurl rules!");
     curl_easy_cleanup( myHandle ); 
     
-    jdouble _result[]={resCode,dns,conn,preTime,ttfb,ttime,redirectTime,redirectCount,size,downSpeed};
+    jdouble _result[]={resCode,conn,preTime,ttfb,ttime,redirectTime,redirectCount,size,downSpeed};
     (*env)->SetDoubleArrayRegion(env, result, 0 , 10, _result);
     return result;
 }
