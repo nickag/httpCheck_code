@@ -157,7 +157,7 @@ public class Server{
         SKafkaConsumer consumer=new SKafkaConsumer();
         consumer.start();
 
-        URLBuilder UB_obj=new URLBuilder(argv[0],argv[1]);
+        URL_Builder UB_obj=new URL_Builder(argv[0],argv[1]);
 
 
         while(true)

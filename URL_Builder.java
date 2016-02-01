@@ -9,14 +9,14 @@ import java.util.ArrayList;
 
 
 
-class URLBuilder
+class URL_Builder
 {
 
     ArrayList<String> keywordsList =new ArrayList<String>();
     String ipFile,keywordsFile;
     Map<String, ArrayList<String>> ipList = new HashMap<String, ArrayList<String>>();
 
-    URLBuilder(String _ipFile, String _keywordsFile) {
+    URL_Builder(String _ipFile, String _keywordsFile) {
 
         ipFile = _ipFile;
         keywordsFile = _keywordsFile;
