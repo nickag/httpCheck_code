@@ -1,12 +1,15 @@
+import java.lang.String;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.io.*;
 import java.io.*;
 import java.util.*;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Date;
 
+import com.sun.javafx.fxml.builder.URLBuilder;
 import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
@@ -138,10 +141,11 @@ class SKafkaProducer {
 public class Server{
     public static FileWriter fw;
     static String logHTTP=null;
+
     public static void main(String[] argv) throws Exception
     {
 
-
+        long currentMinute=1;
         System.out.println(argv[0]);
         String fileName=argv[0];
 
@@ -153,51 +157,35 @@ public class Server{
         SKafkaConsumer consumer=new SKafkaConsumer();
         consumer.start();
 
+        URLBuilder UB_obj=new URLBuilder(argv[0],argv[1]);
+
+
         while(true)
         {
 
-
-            //-----------Reads URL from file----------------//
-
-            BufferedReader br=null;
-
-            br=new BufferedReader(new InputStreamReader(System.in));
-            //System.out.println("Enter a url file: ");
-
-            //String fileName=br.readLine();
-
-            ArrayList<String> urlist=new ArrayList<String>();
-            try{
-                String sCurrentLine;
-                br=new BufferedReader(new FileReader(fileName));
-                while((sCurrentLine=br.readLine())!=null)
-                {
-                    urlist.add(sCurrentLine);
-                }
-
-            }catch(IOException e){
-                //e.printStackTrace();
-            }
-
+            ArrayList<String> urlist=UB_obj.BuildURL(currentMinute);
 
             Iterator itr=urlist.iterator();
 
-            long start=new Date().getTime();
 
             //------Sends the URL to the Kafka Producer-----//
             while(itr.hasNext())
             {
                 String url=(String)itr.next();
                 //System.out.println(url);
-                SKafkaProducer.send(url);
+                //SKafkaProducer.send(url);
             }
 
             //----------waits for the next iteration / Webpage Test-------------//
             try {
-                Thread.sleep(120000);                 //1000 milliseconds is one second.
+                Thread.sleep(60000);                 //Thread.sleep(milliseconds)
+                currentMinute++;
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
+
+
+
 		    /*try{
 		        consumer.join();
 		    }
@@ -208,10 +196,6 @@ public class Server{
 
         }
 
-        //fw.write(logHTTP);
-        //fw.close();
-        //float timeElapsed=(new Date().getTime()-start)/1000f;
-        //System.out.println(response.i+ " Time Elapsed: "+timeElapsed+" seconds");
 
     }
 
