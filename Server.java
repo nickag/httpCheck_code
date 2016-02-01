@@ -73,8 +73,8 @@ class SKafkaConsumer extends  Thread {
                     String[] msgList;
                     msgList = msg.split(";");
                     String log = "<tr>";
-                    URL url = new URL(msgList[0]);
-                    msgList[0] = url.getHost();
+                    //URL url = new URL(msgList[0]);
+                    //msgList[0] = url.getHost();
                     for (int i = 0; i < msgList.length; i++) {
                         log += "<td>" + msgList[i] + "</td>";
                     }

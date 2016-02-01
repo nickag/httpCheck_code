@@ -16,7 +16,7 @@ static size_t WriteCallback(void *ptr, size_t size, size_t nmemb, void *data)
 JNIEXPORT jdoubleArray JNICALL Java_Test_getHttpRequest(JNIEnv *env, jobject obj, jstring URL,jstring Keyword){
 
    const char *url = (*env)->GetStringUTFChars(env, URL, NULL);
-    const char *url = (*env)->GetStringUTFChars(env, Keyword, NULL);
+    const char *keyword = (*env)->GetStringUTFChars(env, Keyword, NULL);
     printf("\t Hey Java!\n");
     curl_global_init( CURL_GLOBAL_ALL );
     CURL * myHandle;
