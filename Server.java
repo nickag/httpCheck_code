@@ -172,8 +172,8 @@ public class Server{
             while(itr.hasNext())
             {
                 String url=(String)itr.next();
-                //System.out.println(url);
-                //SKafkaProducer.send(url);
+                System.out.println(url);
+                SKafkaProducer.send(url);
             }
 
             //----------waits for the next iteration / Webpage Test-------------//

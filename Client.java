@@ -35,7 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 class Test {
 
-    public native double[] getHttpRequest(String url);
+    public native double[] getHttpRequest(String url,String keyword);
 
     /*static {
         System.loadLibrary("clib");
@@ -124,10 +124,16 @@ class CKafkaProducer {
 class response implements Runnable{
     static int i=0;
     String USER_AGENT;
+    String keyword,bu;
     String Url="http://www.google.co.in";
     public response(String url)
     {
-        this.Url=url;
+        String url_data[]=url.split(",");
+        this.bu=url_data[1];
+        this.keyword="Host:"+url_data[2];
+
+        this.Url=url_data[0];
+
         USER_AGENT= "Mozilla/5.0 ;Windows NT 6.2; WOW64; rv:27.0; Gecko/20100101 Firefox/27.0";
     }
 
@@ -140,20 +146,22 @@ class response implements Runnable{
         float dnsLookupTime=0,elapsedTime=0,ttfb=0;
         int responseSize=0;
 
-	String Host="";
-	try{
-		URL url=new URL(Url);
-		Host=url.getHost();
-	}
-	catch(Exception e)
-	{
-		e.printStackTrace();
-	}
-	msg+=";"+Host;
+        String Host="";
+        try{
+            URL url=new URL(Url);
+            //Host=url.getHost();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        //msg+=";"+Host;
+        msg+=";"+keyword+";"+bu;
+
         System.loadLibrary("Test");
-        double[] results=new Test().getHttpRequest(Url);
-	msg+=";"+Integer.toString((int)results[0]);
-	DecimalFormat f=new DecimalFormat("00.00");
+        double[] results=new Test().getHttpRequest(Url,keyword);
+        msg+=";"+Integer.toString((int)results[0]);
+        DecimalFormat f=new DecimalFormat("00.00");
 
         for(int i=1;i<results.length;i++)
         {
@@ -276,7 +284,7 @@ public class Client{
     */
 
         CKafkaProducer.create("response");
-        executor=Executors.newFixedThreadPool(50);
+        executor=Executors.newFixedThreadPool(100);
         CKafkaConsumer urlReq=new CKafkaConsumer();
         urlReq.start();
         Iterator itr=urlList.iterator();

@@ -13,19 +13,24 @@ static size_t WriteCallback(void *ptr, size_t size, size_t nmemb, void *data)
   return (size_t)(size * nmemb);
 }
 
-JNIEXPORT jdoubleArray JNICALL Java_Test_getHttpRequest(JNIEnv *env, jobject obj, jstring URL){
+JNIEXPORT jdoubleArray JNICALL Java_Test_getHttpRequest(JNIEnv *env, jobject obj, jstring URL,jstring Keyword){
 
-    const char *url = (*env)->GetStringUTFChars(env, URL, NULL);
+   const char *url = (*env)->GetStringUTFChars(env, URL, NULL);
+    const char *url = (*env)->GetStringUTFChars(env, Keyword, NULL);
     printf("\t Hey Java!\n");
     curl_global_init( CURL_GLOBAL_ALL );
     CURL * myHandle;
     jdouble val,dns,conn,preTime,ttfb,ttime,redirectTime,redirectCount,size,downSpeed,resCode;
     val=dns=conn=preTime=ttfb=ttime=redirectTime=redirectCount=size=downSpeed=resCode=0;
+     struct curl_slist *list = NULL;
     int no=0;
     jdoubleArray result=(*env)->NewDoubleArray(env, 10);
+    list = curl_slist_append(list,keyword);
+
     CURLcode res; // We’ll store the result of CURL’s webpage retrieval, for simple error checking.
     myHandle = curl_easy_init( );
     // Notice the lack of major error checking, for brevity
+     curl_easy_setopt(myHandle, CURLOPT_HTTPHEADER, list);
     curl_easy_setopt(myHandle, CURLOPT_URL, url);
     curl_easy_setopt(myHandle, CURLOPT_USERAGENT,"Mozilla/4.0");
     curl_easy_setopt(myHandle, CURLOPT_TIMEOUT_MS, 2000L);
